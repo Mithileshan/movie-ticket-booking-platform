@@ -366,13 +366,6 @@ curl -X POST http://localhost:8080/api/reservations \
 ```
 
 ---
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
 ## Author
 
 **Mithileshan**  
