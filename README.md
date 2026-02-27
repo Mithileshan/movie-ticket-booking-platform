@@ -556,6 +556,52 @@ Connect repository and auto-deploy on push.
 
 ---
 
+## � API Documentation (Swagger/OpenAPI)
+
+### Interactive API Docs
+
+The API includes comprehensive Swagger UI documentation:
+
+```bash
+# Navigate to Swagger UI
+http://localhost:8080/api/docs
+```
+
+**Features:**
+- 📋 Complete endpoint documentation with request/response examples
+- 🔐 Try-it-out functionality - test endpoints directly from browser
+- 🔑 JWT authentication support - enter token once, use for all requests
+- 📊 Schema definitions for all data models
+- ⚙️ Error codes and response examples
+- 🏷️ Organized by tags: Auth, Movies, Cinemas, Showtimes, Reservations, Admin
+
+### Health & Status Checks
+
+```bash
+# Health check (debugging)
+curl http://localhost:8080/health
+# Response: { "status": "healthy", "timestamp": "2024-02-26T..Z" }
+
+# API version
+curl http://localhost:8080/version
+# Response: { "version": "1.0.0", "name": "Movie Ticket Booking Platform", "environment": "production" }
+```
+
+### OpenAPI Spec
+
+The full OpenAPI 3.0 specification is available at:
+```
+GET http://localhost:8080/api/docs/swagger.json
+```
+
+Download and import into tools like:
+- Postman
+- Insomnia
+- VS Code REST Client
+- API testing services
+
+---
+
 ## 🐛 Known Issues & Limitations
 
 - Frontend npm installation may require `--legacy-peer-deps` due to older React 16 dependencies
@@ -567,17 +613,27 @@ Connect repository and auto-deploy on push.
 
 ## 📚 API Testing
 
+### Using Swagger UI (Recommended)
+
+1. Start the application: `docker compose up -d`
+2. Open **http://localhost:8080/api/docs** in your browser
+3. Enter JWT token in the Authorize button
+4. Try any endpoint with full documentation
+
 ### Using cURL
 
 ```bash
 # Get all movies
 curl http://localhost:8080/api/movies
 
+# Get health status
+curl http://localhost:8080/health
+
 # Create reservation
 curl -X POST http://localhost:8080/api/reservations \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"showtimeId":"...", "seats":["A1","A2"]}'
+  -d '{"showtimeId":"...", "seats":["A1","A2"], "totalPrice": 500}'
 ```
 
 ### Using Postman

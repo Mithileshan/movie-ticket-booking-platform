@@ -6,6 +6,94 @@ const userModeling = require('../utils/userModeling');
 
 const router = new express.Router();
 
+/**
+ * @swagger
+ * /api/cinemas:
+ *   post:
+ *     summary: Create a new cinema (Admin only)
+ *     tags: [Cinemas]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Cinema'
+ *     responses:
+ *       201:
+ *         description: Cinema created successfully
+ * 
+ *   get:
+ *     summary: Get all cinemas
+ *     tags: [Cinemas]
+ *     parameters:
+ *       - in: query
+ *         name: city
+ *         schema:
+ *           type: string
+ *         description: Filter by city
+ *     responses:
+ *       200:
+ *         description: List of all cinemas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Cinema'
+ * 
+ * /api/cinemas/{id}:
+ *   get:
+ *     summary: Get cinema by ID
+ *     tags: [Cinemas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Cinema details
+ * 
+ *   put:
+ *     summary: Update cinema (Admin only)
+ *     tags: [Cinemas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Cinema'
+ *     responses:
+ *       200:
+ *         description: Cinema updated successfully
+ * 
+ *   delete:
+ *     summary: Delete cinema (Admin only)
+ *     tags: [Cinemas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Cinema deleted successfully
+ */
+
 // Create a cinema
 router.post('/cinemas', auth.enhance, async (req, res) => {
   const cinema = new Cinema(req.body);

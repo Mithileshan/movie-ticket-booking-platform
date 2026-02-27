@@ -6,6 +6,89 @@ const generateQR = require('../utils/generateQRCode');
 
 const router = new express.Router();
 
+/**
+ * @swagger
+ * /api/reservations:
+ *   post:
+ *     summary: Create a new reservation (book tickets)
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [showtimeId, seats, totalPrice]
+ *             properties:
+ *               showtimeId: { type: string, description: "Showtime ID" }
+ *               seats: { type: array, items: { type: string }, example: ["A1", "A2"] }
+ *               totalPrice: { type: number, example: 500 }
+ *     responses:
+ *       201:
+ *         description: Reservation created successfully with QR code
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 reservation:
+ *                   $ref: '#/components/schemas/Reservation'
+ *                 QRCode: { type: string, description: "QR code for ticket" }
+ *       400:
+ *         $ref: '#/components/responses/Error'
+ * 
+ *   get:
+ *     summary: Get all reservations for logged-in user
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user's reservations
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reservation'
+ * 
+ * /api/reservations/{id}:
+ *   get:
+ *     summary: Get reservation by ID
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Reservation ID
+ *     responses:
+ *       200:
+ *         description: Reservation details
+ *       404:
+ *         description: Reservation not found
+ * 
+ *   delete:
+ *     summary: Cancel reservation
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Reservation cancelled successfully
+ */
+
 // Create a reservation
 router.post('/reservations', auth.simple, async (req, res) => {
   const reservation = new Reservation(req.body);

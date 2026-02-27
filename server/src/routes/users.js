@@ -5,6 +5,39 @@ const auth = require('../middlewares/auth');
 
 const router = new express.Router();
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name, username, email, password]
+ *             properties:
+ *               name: { type: string, example: "John Doe" }
+ *               username: { type: string, example: "johndoe" }
+ *               email: { type: string, format: email, example: "john@example.com" }
+ *               password: { type: string, minLength: 7, example: "secure123" }
+ *               phone: { type: string }
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 token: { type: string, description: "JWT Auth Token" }
+ *       400:
+ *         $ref: '#/components/responses/Error'
+ */
 // Create a user
 router.post('/users', async (req, res) => {
   try {
@@ -40,6 +73,46 @@ router.post('/users/photo/:id', upload('users').single('file'), async (req, res,
   }
 });
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login user with credentials
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [username, password]
+ *             properties:
+ *               username: { type: string, example: "johndoe" }
+ *               password: { type: string, example: "secure123" }
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 token: { type: string }
+ *       400:
+ *         description: Invalid credentials
+ * 
+ * /users/logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
 // Login User
 router.post('/users/login', async (req, res) => {
   try {

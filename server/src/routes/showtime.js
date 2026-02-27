@@ -4,6 +4,63 @@ const Showtime = require('../models/showtime');
 
 const router = new express.Router();
 
+/**
+ * @swagger
+ * /api/showtimes:
+ *   post:
+ *     summary: Create a new showtime (Admin only)
+ *     tags: [Showtimes]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Showtime'
+ *     responses:
+ *       201:
+ *         description: Showtime created successfully
+ * 
+ *   get:
+ *     summary: Get all showtimes with filters
+ *     tags: [Showtimes]
+ *     parameters:
+ *       - in: query
+ *         name: movieId
+ *         schema:
+ *           type: string
+ *         description: Filter by movie ID
+ *       - in: query
+ *         name: cinemaId
+ *         schema:
+ *           type: string
+ *         description: Filter by cinema ID
+ *     responses:
+ *       200:
+ *         description: List of showtimes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Showtime'
+ * 
+ * /api/showtimes/{id}:
+ *   get:
+ *     summary: Get showtime by ID
+ *     tags: [Showtimes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Showtime details
+ */
+
 // Create a showtime
 router.post('/showtimes', auth.enhance, async (req, res) => {
   const showtime = new Showtime(req.body);

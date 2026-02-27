@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -56,6 +58,20 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.json());
+
+// === Health & Status Endpoints ===
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
+app.get('/version', (req, res) => {
+  res.json({ version: '1.0.0', name: 'Movie Ticket Booking Platform', environment: process.env.NODE_ENV || 'development' });
+});
+
+// === Swagger API Documentation ===
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { swaggerOptions: { persistAuthorization: true } }));
+
+// === API Routes ===
 app.use(userRouter);
 app.use(movieRouter);
 app.use(cinemaRouter);

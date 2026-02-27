@@ -6,6 +6,112 @@ const userModeling = require('../utils/userModeling');
 
 const router = new express.Router();
 
+/**
+ * @swagger
+ * /api/movies:
+ *   post:
+ *     summary: Create a new movie (Admin only)
+ *     tags: [Movies]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Movie'
+ *     responses:
+ *       201:
+ *         description: Movie created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movie'
+ *       400:
+ *         $ref: '#/components/responses/Error'
+ * 
+ *   get:
+ *     summary: Get all movies
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: query
+ *         name: genre
+ *         schema:
+ *           type: string
+ *         description: Filter by genre
+ *       - in: query
+ *         name: language
+ *         schema:
+ *           type: string
+ *         description: Filter by language
+ *     responses:
+ *       200:
+ *         description: List of all movies
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Movie'
+ * 
+ * /api/movies/{id}:
+ *   get:
+ *     summary: Get movie by ID
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Movie ID
+ *     responses:
+ *       200:
+ *         description: Movie details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movie'
+ *       404:
+ *         description: Movie not found
+ * 
+ *   put:
+ *     summary: Update movie (Admin only)
+ *     tags: [Movies]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Movie'
+ *     responses:
+ *       200:
+ *         description: Movie updated successfully
+ * 
+ *   delete:
+ *     summary: Delete movie (Admin only)
+ *     tags: [Movies]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Movie deleted successfully
+ */
+
 // Create a movie
 router.post('/movies', auth.enhance, async (req, res) => {
   const movie = new Movie(req.body);
