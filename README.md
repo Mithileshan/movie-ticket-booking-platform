@@ -18,6 +18,7 @@
 ## 📋 Table of Contents
 
 - [Quick Start](#-quick-start)
+- [Demo Data & Seeding](#-demo-data--seeding)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
@@ -67,6 +68,47 @@ npm run server
 # Frontend only (development mode)
 npm run client
 # Runs on http://localhost:3000
+```
+
+---
+
+## 🌱 Demo Data & Seeding
+
+### Auto-Seed on Startup (Docker)
+
+When you run `docker compose up -d`, the backend automatically seeds demo data on first run:
+- **5 sample movies** (Inception, Dark Knight, Interstellar, Pulp Fiction, The Matrix)
+- **4 cinema locations** across major cities
+- **80 showtimes** (2 weeks of scheduling)
+- **Demo Admin User** (email: `admin@demo.com`, password: `Admin@123`)
+
+The seeding is **idempotent** — it only runs if no data exists, so you can safely restart containers.
+
+### Manual Seeding
+
+```bash
+# Run seed script directly
+npm run seed
+
+# Or with Docker
+docker exec -it movie-booking-api npm run seed
+```
+
+### Reset Demo Data
+
+```bash
+# Delete MongoDB volume to reset all data
+docker compose down -v
+
+# Restart and re-seed
+docker compose up -d
+```
+
+### Disable Auto-Seeding
+
+For production with existing data, set in `.env`:
+```env
+SEED_ON_START=false
 ```
 
 ---

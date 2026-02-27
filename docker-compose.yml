@@ -33,6 +33,7 @@ services:
       CLIENT_URL: http://localhost:3000
       GMAIL_USER: ${GMAIL_USER:-your_email@gmail.com}
       GMAIL_PASSWORD: ${GMAIL_PASSWORD:-your_app_password}
+      SEED_ON_START: "true"
     depends_on:
       mongo:
         condition: service_healthy

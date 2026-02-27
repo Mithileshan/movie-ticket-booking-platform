@@ -7,6 +7,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 require('./db/mongoose');
 
+// Auto-seed database if SEED_ON_START is true (first time only, idempotent)
+if (process.env.SEED_ON_START === 'true') {
+  const seedData = require('../scripts/seed');
+  seedData().catch(err => console.error('Seed error:', err.message));
+}
+
 // Routes
 const userRouter = require('./routes/users');
 const movieRouter = require('./routes/movies');
