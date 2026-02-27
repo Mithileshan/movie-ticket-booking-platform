@@ -11,6 +11,7 @@ RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY server/src ./src
+COPY server/scripts ./scripts
 
 # Expose port
 EXPOSE 8080
