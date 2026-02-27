@@ -2,218 +2,584 @@
     <img src="Assets/2024-08-17-23-31-55.png" align="center" height="150"></img>
 </p>
 
-<h1 align="center"> Movie Store 🛒📽️ </h1> 
-<h3 align="center"> Seamlessly book your movie tickets anytime, anywhere with our smart and dynamic booking platform! </h3>
+# Movie Ticket Booking Platform 🎬🎫 
+> A full-stack movie ticket booking application built with React, Node.js, Express, MongoDB, and Docker Compose for seamless containerization.
 
 <p align="center">
     <a href="https://reactjs.org/"><img alt="React" src="https://img.shields.io/badge/React-16.11.0-61DAFB?style=flat-square" /></a>
-    <a href="https://redux.js.org/"><img alt="Redux" src="https://img.shields.io/badge/Redux-4.0.4-764ABC?style=flat-square" /></a>
-    <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-18.2.0-339933?style=flat-square" /></a>
-    <a href="https://expressjs.com/"><img alt="Express" src="https://img.shields.io/badge/Express-4.16.4-FF6347?style=flat-square" /></a>
-    <a href="https://www.mongodb.com/"><img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square" /></a>
-    <a href="https://mui.com/"><img alt="Material-UI" src="https://img.shields.io/badge/Material--UI-4.6.0-0081CB?style=flat-square" /></a>
-    <a href="https://sass-lang.com/"><img alt="Sass" src="https://img.shields.io/badge/Sass-4.13.0-CC6699?style=flat-square" /></a>
-    <a href="https://mongoosejs.com/"><img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-5.5.4-880000?style=flat-square" /></a>
-    <a href="https://www.npmjs.com/package/jsonwebtoken"><img alt="JWT" src="https://img.shields.io/badge/JWT-8.5.1-4c9f70?style=flat-square" /></a>
-    <a href="https://www.npmjs.com/package/multer"><img alt="Multer" src="https://img.shields.io/badge/Multer-1.4.2-5C5C5C?style=flat-square" /></a>
-    <a href="https://github.com/eligrey/FileSaver.js/"><img alt="jsPDF" src="https://img.shields.io/badge/jsPDF-1.5.3-FF7700?style=flat-square" /></a>
-    <a href="https://momentjs.com/"><img alt="Moment.js" src="https://img.shields.io/badge/Moment.js-2.24.0-FF5733?style=flat-square" /></a>
-    <a href="https://www.chartjs.org/"><img alt="Chart.js" src="https://img.shields.io/badge/Chart.js-2.9.2-FE777B?style=flat-square" /></a>
+    <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-16-339933?style=flat-square" /></a>
+    <a href="https://expressjs.com/"><img alt="Express" src="https://img.shields.io/badge/Express-4.16-FF6347?style=flat-square" /></a>
+    <a href="https://www.mongodb.com/"><img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-6-47A248?style=flat-square" /></a>
+    <a href="https://www.docker.com/"><img alt="Docker" src="https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square" /></a>
+    <a href="https://redux.js.org/"><img alt="Redux" src="https://img.shields.io/badge/Redux-4.0-764ABC?style=flat-square" /></a>
+    <a href="https://mui.com/"><img alt="Material-UI" src="https://img.shields.io/badge/Material--UI-4.6-0081CB?style=flat-square" /></a>
 </p>
 
+## 📋 Table of Contents
 
-<!-- <p align="center">If you want to discuss something, you can ask on my <a href="https://discord.com/invite/GkcbM5bwZr">Discord Server</a>.</p> -->
+- [Quick Start](#-quick-start)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [API Endpoints](#-api-endpoints)
+- [Database Schema](#-database-schema)
+- [Docker & Deployment](#-docker--deployment)
+- [Architecture](#-architecture)
+- [Contributors](#-contributors)
 
-# 🖥️ Installation & Setup ⚙️
+---
 
-- Download the latest Node.js version from [here](https://nodejs.org/en/download/) and npm will be installed with nodejs.
+## 🚀 Quick Start
 
-- Clone the repository
+### Prerequisites
 
-  ```sh
-  git clone <repo_link>
-  ```
+- [Docker](https://www.docker.com/products/docker-desktop) and Docker Compose installed
+- Or: Node.js 16+, npm, and MongoDB 6+ for local development
 
-- Navigate to the project directory
-- Install the required dependencies
-  ```sh
-  npm install
-  ```
-- Start the app
-  
-  - Runs the react app in the development mode.\
-    Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-    ```sh
-     npm run client
-    ```
-  - Runs the backend server app in the development mode.\
-    Open [http://localhost:8080](http://localhost:8080) 
-      ```sh
-     npm run server
-    ```
+### With Docker Compose (Recommended)
 
-# ▶️ App Features
+```bash
+# Clone the repository
+git clone https://github.com/Mithileshan/movie-ticket-booking-platform.git
+cd movie-ticket-booking-platform
 
-## 🎬 User Page
-- **Browse Movies**: Users can easily explore a vast collection of movies based on genres, languages, and release dates.
-  ![](Assets/2024-08-17-23-14-57.png)
-  ![](Assets/2024-08-17-23-10-25.png)
+# Start all services (Frontend, Backend, MongoDB)
+docker compose up -d
 
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8080
+# MongoDB: localhost:27017
+```
 
-- **Select Showtimes**: Choose preferred showtimes and cinema locations based on availability.
-  ![](Assets/2024-08-17-23-11-42.png)
+### Local Development Setup
 
-- **Seat Selection**: View the seating arrangement and select desired seats in real-time.
-  ![](Assets/2024-08-17-23-12-24.png)
+```bash
+# Install dependencies
+npm install
 
-- **Booking Confirmation**: Receive booking confirmation with a summary of selected seats, showtime, and cinema location.
-  ![](Assets/2024-08-17-23-13-13.png)
+# Backend only (development mode)
+npm run server
+# Runs on http://localhost:8080
 
-- **User Dashboard **: Secure login and registration for users, check reservation history, and manage personal information.
-  ![](Assets/2024-08-17-23-15-55.png)
+# Frontend only (development mode)
+npm run client
+# Runs on http://localhost:3000
+```
 
+---
 
-## 🎟️ Admin Dashboard
-- **Dashboard for Theatre Owners**: Theatre admins can manage their cinema information, view reservations, and analyze booking statistics.
-  
-- **Add Movies**: Admins can easily add new movies to their cinemas and manage showtimes and seat availability.
-  ![](Assets/2024-08-17-23-18-30.png)
-  ![](Assets/2024-08-17-23-18-44.png)
-  ![](Assets/2024-08-17-23-19-35.png)
-- **Reservation Management**: Admins can track all bookings, manage seat statuses, and handle ticket cancellations.
-  ![](Assets/2024-08-17-23-20-00.png)
-  ![](Assets/2024-08-17-23-20-18.png)
-- **Business Analytics**: Admin dashboard provides rich visualizations and statistical insights into bookings, sales, and customer behavior.
-  ![](Assets/2024-08-17-23-18-10.png)
+## ✨ Features
 
-## 💳 Future Scope
-- **Payment Integration**: Integration with payment gateways to facilitate online transactions for booking tickets.
-- **Customer Reviews**: Allow users to leave reviews and feedback for movies they have watched.
-- **Offers & Promotions**: Admins can create and manage promotional offers for movie bookings.
+### 👤 User Features
+- **Browse Movies**: Explore a vast collection of movies filtered by genre, language, and release date
+- **Select Showtimes**: Choose preferred cinema locations and showtimes
+- **Seat Selection**: Visual real-time seat booking interface
+- **Booking Confirmation**: Instant confirmation with booking summary
+- **User Dashboard**: View reservation history and manage account
+- **Authentication**: Secure login/registration with JWT tokens
 
-# Tech Stack 📃
-- **Frontend**: React.js with Material-UI for creating a responsive and dynamic user interface.
-- **Backend**: Node.js and Express.js for server-side logic, REST API endpoints, and business logic.
-- **Database**: MongoDB (Atlas cloud cluster) for storing user, movie, and reservation data.
-- **State Management**: Redux for managing application state and ensuring smooth UI updates across different components.
-- **Data Validation**: `validator.js` library ensures that user inputs, such as email and phone numbers, are validated for correctness and security.
+### 🛡️ Admin Features
+- **Cinema Management**: Add and manage multiple cinema locations
+- **Movie Management**: Add movies, manage showtimes and availability
+- **Seat Configuration**: Define seating arrangements and pricing
+- **Reservation Tracking**: View all bookings and manage cancellations
+- **Analytics Dashboard**: Visualize revenue, occupancy, and popularity metrics
+- **Admin Approval System**: Super Admin approval workflow
 
+### 🎯 Business Features
+- **Multi-role Access**: Guest, Admin, and Super Admin roles
+- **Real-time Seat Availability**: Dynamic seat status updates
+- **Secure Payment Path**: Prepared for payment gateway integration
+- **Email Notifications**: Booking confirmations via Nodemailer
+- **QR Code Generation**: Digital ticket generation with qrcode library
 
-# 🚀 Technical Details
+---
 
-## 💡 High-level System Architecture
+## 🛠️ Tech Stack
 
-![](Assets/2024-08-17-23-23-55.png)
-![](Assets/2024-08-17-23-24-09.png)
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Frontend** | React | 16.11.0 |
+| **State Management** | Redux | 4.0.4 |
+| **UI Framework** | Material-UI | 4.6.0 |
+| **Backend** | Node.js | 16-alpine |
+| **API Framework** | Express.js | 4.16.4 |
+| **Database** | MongoDB | 6 |
+| **ODM** | Mongoose | 5.5.4 |
+| **Authentication** | JWT + bcryptjs | 8.5.1 / 2.4.3 |
+| **File Upload** | Multer | 1.4.2 |
+| **Utilities** | Moment.js, Chart.js, jsPDF | Latest |
+| **Containerization** | Docker & Docker Compose | Latest |
+| **Reverse Proxy** | Nginx | Alpine |
 
-## Low-level Implementation Details 👨‍💻
-### 1. Authentication Module
-- **User Roles**: Three user roles are implemented: Guest, Admin, and Super Admin.
-  - **Guest**: General users who can browse movies, select showtimes, and book tickets.
-  - **Admin**: Theatre owners with access to manage cinemas, movies, and reservations.
-  - **Super Admin**: Application owner with full control over admin approval, user management, and analytics.
-  
-### 2. Movie Module
-- **Movie Management**: Admins can add and edit movies, including title, cast, director, genre, and release dates. All movie data is stored in a MongoDB collection.
-- **Schema**: Movie schema includes fields like `title`, `cast`, `director`, `genre`, `releaseDate`, and `endDate`.
-- **Movie Carousel & Listings**: Frontend displays movies in carousels (e.g., "Now Showing" and "Coming Soon") and lists them dynamically based on user interactions and selections.
+---
 
-### 3. Cinema Theatre Module
-- **Cinema & Seat Management**: Admins can create cinemas, define seat arrangements, set ticket prices, and manage seat availability.
-- **Schema**: Cinema schema includes fields like `name`, `location`, `seats`, `ticketPrice`, and `seatsAvailable`.
-- **Seating Arrangement**: Seat layout is rendered as a graphical grid, allowing users to choose specific seats during the booking process.
+## 📁 Project Structure
 
-### 4. ShowTime Module
-- **Showtime Scheduling**: Admins assign movies to specific cinemas with start and end dates for showtimes.
-- **Schema**: Showtime schema links `movieId` and `cinemaId` and includes `startDate`, `endDate`, and `showtimes`.
-- **Seat Reservation**: The system tracks booked and available seats for each showtime.
+```
+movie-ticket-booking-platform/
+├── server/                          # Backend (Node.js + Express)
+│   ├── src/
+│   │   ├── routes/                 # API route handlers
+│   │   ├── models/                 # Mongoose schemas
+│   │   ├── controllers/            # Business logic
+│   │   ├── middleware/             # Auth, validation middleware
+│   │   └── index.js                # Express server entry
+│   ├── Dockerfile                  # Backend containerization
+│   ├── package.json                # Backend dependencies
+│   └── .env                        # Backend environment config
+│
+├── client/                          # Frontend (React)
+│   ├── public/
+│   │   └── index.html              # HTML template
+│   ├── src/
+│   │   ├── components/             # React components
+│   │   ├── pages/                  # Page components
+│   │   ├── redux/                  # Redux store & actions
+│   │   ├── App.js                  # Root component
+│   │   └── index.js                # React DOM render
+│   ├── Dockerfile                  # Frontend containerization
+│   ├── nginx.conf                  # Nginx SPA routing config
+│   ├── package.json                # Frontend dependencies
+│   └── .env                        # Frontend environment config
+│
+├── docker-compose.yml              # Full stack orchestration (prod)
+├── docker-compose.dev.yml          # Backend-only dev setup
+└── README.md                       # This file
+```
 
-### 5. Booking Module
-- **User Flow**: Users select their desired movie, cinema, and showtime, then proceed to the seat selection interface.
-- **Graphical Seat Layout**: Users can visually select their seats in real-time.
-- **Booking Confirmation**: After seat selection, users are presented with a booking summary page before confirming the reservation.
-- **Reservation Schema**: Reservations are saved in MongoDB, with fields like `movieId`, `cinemaId`, `showtime`, `seats`, `ticketPrice`, and `total`.
+---
 
-### 6. Admin and Super Admin Module
-- **Dashboard Overview**: Admin and Super Admin users have access to dashboards that provide insights into bookings, seat utilization, and cinema performance.
-- **Admin Management**: Super Admins have additional privileges to approve theatre owners as Admins.
-- **Analytics**: The admin dashboard includes graphical visualizations to track revenue, movie popularity, and user engagement.
+## 💻 Installation
 
-# Contributors <img src="https://raw.githubusercontent.com/TheDudeThatCode/TheDudeThatCode/master/Assets/Developer.gif" width=35 height=25>
+### Clone Repository
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/charangajjala" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/64437927?v=4" width="100px" alt="Charan Gajjala" />
-          <br />
-          <sub><b>Charan Gajjala Chenchu</b></sub>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://www.linkedin.com/in/chinna-hari-krishna-reddy-708536245/"
-          target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/74588553?v=4" width="100px" alt="Sachin" />
-          <br />
-          <sub><b>Chinna Hari Krishna</b></sub>
-        </a>
-      </td>
-            <td align="center">
-        <a href="https://www.linkedin.com/in/sree-ram-varma-chintalapati-37092a1a9/"
-          target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/74588553?v=4" width="100px" alt="Sachin" />
-          <br />
-          <sub><b>Chitalapati Sree Ram Varama</b></sub>
-        </a>
-      </td>
-  </tbody>
-</table>
+```bash
+git clone https://github.com/Mithileshan/movie-ticket-booking-platform.git
+cd movie-ticket-booking-platform
+```
 
-# 🎟️ License
+### Backend Setup
 
-This project is licensed under the MIT License - see the [License](LICENSE) file for details.
+```bash
+cd server
+npm install --legacy-peer-deps
+```
 
-# 📜 References & Acknowledgement
+### Frontend Setup
 
-1. [React Documentation](https://reactjs.org/)  
-   Official documentation for React.js, a JavaScript library for building user interfaces.
-   
-2. [Material-UI Documentation](https://mui.com/)  
-   Material-UI is a popular React UI framework for implementing Google's Material Design.
+```bash
+cd ../client
+npm install --legacy-peer-deps
+```
 
-3. [Express Documentation](https://expressjs.com/)  
-   Documentation for Express.js, a fast, minimalist web framework for Node.js.
+### MongoDB Setup
 
-4. [Mongoose Documentation](https://mongoosejs.com/)  
-   Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js.
+- **Docker**: Uses `mongo:6` service (included in docker-compose.yml)
+- **Local**: Install [MongoDB Community Edition](https://docs.mongodb.com/manual/installation/) and start `mongod`
 
-5. [bcrypt.js Documentation](https://www.npmjs.com/package/bcryptjs)  
-   bcrypt.js is a library for hashing passwords and ensuring secure storage in the database.
+---
 
-6. [JWT (jsonwebtoken) Documentation](https://www.npmjs.com/package/jsonwebtoken)  
-   JSON Web Tokens (JWT) are used to securely transmit information between parties.
+## 🔐 Environment Variables
 
-7. [Redux Documentation](https://redux.js.org/)  
-   Redux is a predictable state container for JavaScript applications, often used with React.
+### Backend (server/.env)
 
-8. [Moment.js Documentation](https://momentjs.com/)  
-   Moment.js is a popular library for parsing, validating, manipulating, and formatting dates.
+```env
+# Database
+MONGODB_URI=mongodb://mongo:27017/movieticketdb  # Docker
+# MONGODB_URI=mongodb://localhost:27017/movieticketdb  # Local
 
-9. [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)  
-   MongoDB Atlas is a fully managed cloud database service built for modern applications.
+# JWT
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRY=7d
 
-10. [Node.js Documentation](https://nodejs.org/en/docs/)  
-    Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+# Email (Nodemailer)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASSWORD=your_app_password
 
-11. [Multer Documentation](https://www.npmjs.com/package/multer)  
-    Multer is a middleware for handling multipart/form-data, used for file uploads in Node.js applications.
+# Server
+PORT=8080
+NODE_ENV=production
+```
 
-12. [Chart.js Documentation](https://www.chartjs.org/)  
-    Chart.js is a simple yet flexible JavaScript charting library for designers and developers.
+### Frontend (client/.env)
 
-13. [Google GeeksForGeeks - Design Movie Ticket Booking System](https://www.geeksforgeeks.org/design-movie-ticket-booking-system-like-bookmyshow/)  
-    A tutorial for designing a movie ticket booking system similar to BookMyShow.
+```env
+# API
+REACT_APP_API_BASE_URL=http://localhost:8080
 
-14. [GitHub - MovieStore Code Repository](https://github.com/charangajjala/MovieStore)  
-    The GitHub repository for the source code of the Movie Ticket Booking System project.
+# OAuth (Optional future integration)
+REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
+REACT_APP_GITHUB_CLIENT_ID=your_github_client_id
+```
+
+---
+
+## 📡 API Endpoints
+
+### Authentication
+```
+POST   /api/auth/register          # User registration
+POST   /api/auth/login             # User login
+POST   /api/auth/logout            # User logout
+GET    /api/auth/profile           # Get user profile
+```
+
+### Movies
+```
+GET    /api/movies                 # List all movies
+GET    /api/movies/:id             # Get movie details
+POST   /api/movies                 # Create movie (Admin)
+PUT    /api/movies/:id             # Update movie (Admin)
+DELETE /api/movies/:id             # Delete movie (Admin)
+```
+
+### Cinemas
+```
+GET    /api/cinemas                # List all cinemas
+GET    /api/cinemas/:id            # Get cinema details
+POST   /api/cinemas                # Create cinema (Admin)
+PUT    /api/cinemas/:id            # Update cinema (Admin)
+DELETE /api/cinemas/:id            # Delete cinema (Admin)
+```
+
+### Showtimes
+```
+GET    /api/showtimes              # List showtimes with filters
+GET    /api/showtimes/:id          # Get showtime details
+POST   /api/showtimes              # Create showtime (Admin)
+PUT    /api/showtimes/:id          # Update showtime (Admin)
+DELETE /api/showtimes/:id          # Delete showtime (Admin)
+```
+
+### Reservations
+```
+GET    /api/reservations           # List user reservations
+GET    /api/reservations/:id       # Get reservation details
+POST   /api/reservations           # Create reservation (Book ticket)
+DELETE /api/reservations/:id       # Cancel reservation
+```
+
+### Admin Dashboard
+```
+GET    /api/admin/stats            # Get dashboard statistics
+GET    /api/admin/analytics        # Get analytics data
+GET    /api/admin/users            # List users (Super Admin)
+GET    /api/admin/approvals        # Get admin approval requests
+```
+
+---
+
+## 📊 Database Schema
+
+### User Model
+```javascript
+{
+  _id: ObjectId,
+  name: String,
+  email: String,
+  password: String (hashed with bcryptjs),
+  phone: String,
+  role: String (Guest/Admin/SuperAdmin),
+  isApproved: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Movie Model
+```javascript
+{
+  _id: ObjectId,
+  title: String,
+  description: String,
+  genre: [String],
+  language: String,
+  cast: [String],
+  director: String,
+  releaseDate: Date,
+  endDate: Date,
+  posterUrl: String,
+  rating: Number,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Cinema Model
+```javascript
+{
+  _id: ObjectId,
+  name: String,
+  location: String,
+  address: String,
+  phone: String,
+  email: String,
+  admin: ObjectId (Reference to User),
+  seatingLayout: Object,
+  ticketPrice: Number,
+  amenities: [String],
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Showtime Model
+```javascript
+{
+  _id: ObjectId,
+  movie: ObjectId (Reference to Movie),
+  cinema: ObjectId (Reference to Cinema),
+  startDate: Date,
+  endDate: Date,
+  showtimes: [String],
+  seatsAvailable: Number,
+  totalSeats: Number,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Reservation Model
+```javascript
+{
+  _id: ObjectId,
+  user: ObjectId (Reference to User),
+  showtime: ObjectId (Reference to Showtime),
+  seats: [String],
+  totalPrice: Number,
+  status: String (Confirmed/Cancelled),
+  bookingDate: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+---
+
+## 🐳 Docker & Deployment
+
+### Docker Compose Files
+
+#### `docker-compose.yml` (Production)
+Orchestrates three services:
+- **frontend**: React app served by Nginx on port 3000
+- **backend**: Node.js API on port 8080
+- **mongo**: MongoDB database on port 27017
+
+```bash
+docker compose up -d --build
+```
+
+#### `docker-compose.dev.yml` (Development)
+Backend-only setup for rapid development:
+- **backend**: Node.js API with hot reload
+- **mongo**: MongoDB database
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+### Docker Images
+
+**Backend Image**
+- Base: `node:16-alpine`
+- Size: ~150MB
+- Health Check: `wget --quiet --tries=1 --spider http://localhost:8080/health`
+
+**Frontend Image**
+- Build Stage: `node:16` (compiles React)
+- Runtime Stage: `nginx:alpine` (serves static files)
+- Size: ~40MB
+
+### Useful Docker Commands
+
+```bash
+# View running containers
+docker compose ps
+
+# View service logs
+docker compose logs backend
+docker compose logs frontend
+docker compose logs -f mongo
+
+# Execute command in container
+docker exec -it movie-booking-api sh
+docker exec -it movie-booking-frontend sh
+
+# Stop and remove all services
+docker compose down
+
+# Clean up images and volumes
+docker compose down -v
+```
+
+### Deployment to Cloud
+
+#### Option 1: Render
+```bash
+# Create render.yaml for infrastructure-as-code deployment
+render deploy
+```
+
+#### Option 2: Heroku
+```bash
+git push heroku main
+```
+
+#### Option 3: DigitalOcean App Platform
+Connect repository and auto-deploy on push.
+
+---
+
+## 🏗️ Architecture
+
+### High-Level System Flow
+
+```
+┌─────────────────┐
+│  React SPA      │
+│  (Port 3000)    │
+└────────┬────────┘
+         │ API Calls
+         ▼
+┌─────────────────┐
+│  Express API    │
+│  (Port 8080)    │
+└────────┬────────┘
+         │ Queries
+         ▼
+┌─────────────────┐
+│  MongoDB        │
+│  (Port 27017)   │
+└─────────────────┘
+```
+
+### Authentication Flow
+
+```
+1. User submits credentials
+2. Backend hashes password with bcryptjs
+3. Compares with stored hash
+4. Issues JWT token on success
+5. Frontend stores token in localStorage
+6. Token included in Authorization header for future requests
+7. Middleware validates token on protected routes
+```
+
+### Booking Process
+
+```
+1. User browses movies and selects showtime
+2. System queries available seats from MongoDB
+3. User selects seats in React UI
+4. Form validation on frontend
+5. Reservation request sent with JWT token
+6. Backend validates user, showtime, and seats
+7. Transaction updates seat availability
+8. Confirmation email sent via Nodemailer
+9. QR code generated for ticket
+10. Booking confirmed in user dashboard
+```
+
+---
+
+## 🔒 Security Features
+
+- **Password Hashing**: bcryptjs with 10 salt rounds
+- **JWT Tokens**: Secure token-based authentication
+- **CORS Middleware**: Prevents unauthorized cross-origin requests
+- **Input Validation**: Schema validation with Mongoose
+- **SQL/NoSQL Injection Prevention**: Parameterized queries via Mongoose
+- **Rate Limiting**: Ready for express-rate-limit integration
+- **HTTPS**: Ready for SSL/TLS configuration
+- **Environment Variables**: Sensitive data in .env files (not committed)
+
+---
+
+## 🚀 Performance Optimizations
+
+- **Multi-stage Docker builds**: Reduced image sizes
+- **Nginx gzip compression**: Compresses API responses and static assets
+- **MongoDB indexing**: Indexes on frequently queried fields
+- **Redux state caching**: Minimizes unnecessary API calls
+- **React code splitting**: Lazy loading of route components
+- **CDN ready**: Static assets can be served from CDN
+- **Connection pooling**: MongoDB connection reuse
+
+---
+
+## 🐛 Known Issues & Limitations
+
+- Frontend npm installation may require `--legacy-peer-deps` due to older React 16 dependencies
+- Email functionality requires valid Gmail app password
+- Payment gateway not yet integrated (ready for Stripe/Razorpay)
+- No real-time seat updates (WebSocket ready)
+
+---
+
+## 📚 API Testing
+
+### Using cURL
+
+```bash
+# Get all movies
+curl http://localhost:8080/api/movies
+
+# Create reservation
+curl -X POST http://localhost:8080/api/reservations \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"showtimeId":"...", "seats":["A1","A2"]}'
+```
+
+### Using Postman
+
+Import [postman/movie-api.collection.json](postman/movie-api.collection.json) for pre-configured API requests.
+
+---
+
+## 📝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 👥 Contributors
+
+- [Mithileshan](https://github.com/Mithileshan/)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📚 References
+
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [Express.js Guide](https://expressjs.com/)
+- [MongoDB Manual](https://docs.mongodb.com/manual/)
+- [Mongoose ODM](https://mongoosejs.com/)
+- [React Documentation](https://reactjs.org/)
+- [Redux Documentation](https://redux.js.org/)
+- [Material-UI Documentation](https://mui.com/)
+- [JWT Introduction](https://jwt.io/)
+
+---
+
+**⭐ If you find this project helpful, please consider giving it a star!**
