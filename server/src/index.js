@@ -19,8 +19,16 @@ const app = express();
 app.disable('x-powered-by');
 const port = process.env.PORT || 8080;
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../../client/build')));
+// Serve static files from the React app (if they exist)
+const clientBuildPath = path.join(__dirname, '../../client/build');
+try {
+  if (require('fs').existsSync(clientBuildPath)) {
+    app.use(express.static(clientBuildPath));
+  }
+} catch (e) {
+  console.log('Client build files not found, serving API only');
+}
+
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use(function(req, res, next) {
@@ -51,9 +59,16 @@ app.use(invitationsRouter);
 
 // app.get('/api/test', (req, res) => res.send('Hello World'))
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../client/index.html'));
-});
+// The "catchall" handler: for any request that doesn't match above, send back React's index.html file (if it exists)
+const indexPath = path.join(__dirname, '../../client/build/index.html');
+try {
+  if (require('fs').existsSync(indexPath)) {
+    app.get('/*', (req, res) => {
+      res.sendFile(indexPath);
+    });
+  }
+} catch (e) {
+  // No catchall if client build doesn't exist
+}
+
 app.listen(port, () => console.log(`app is running in PORT: ${port}`));

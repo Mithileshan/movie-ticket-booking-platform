@@ -60,5 +60,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "description": "This is a movie ticket booking application developed using MERN stack",
+  "main": "index.js",
+  "devDependencies": {},
+  "keywords": []
 }

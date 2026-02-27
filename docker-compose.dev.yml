@@ -1,0 +1,45 @@
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:6
+    container_name: movie-booking-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: movieticketdb
+    networks:
+      - movie-network
+
+  # Node.js Express Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: movie-booking-api
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      MONGODB_URI: mongodb://mongo:27017/movieticketdb
+      JWT_SECRET: test_jwt_secret_key_change_in_production
+      CLIENT_URL: http://localhost:3000
+      GMAIL_USER: your_email@gmail.com
+      GMAIL_PASSWORD: your_app_password
+    depends_on:
+      - mongo
+    networks:
+      - movie-network
+    volumes:
+      - ./server/uploads:/app/server/uploads
+    restart: on-failure
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  movie-network:
+    driver: bridge

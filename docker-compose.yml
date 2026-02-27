@@ -1,0 +1,82 @@
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:6
+    container_name: movie-booking-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: movieticketdb
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - movie-network
+
+  # Node.js Express Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: movie-booking-api
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      MONGODB_URI: mongodb://mongo:27017/movieticketdb
+      JWT_SECRET: ${JWT_SECRET:-your_jwt_secret_key_change_in_production}
+      CLIENT_URL: http://localhost:3000
+      GMAIL_USER: ${GMAIL_USER:-your_email@gmail.com}
+      GMAIL_PASSWORD: ${GMAIL_PASSWORD:-your_app_password}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - movie-network
+    volumes:
+      - ./server/uploads:/app/server/uploads
+    restart: unless-stopped
+
+  # React Frontend (Nginx)
+  frontend:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: movie-booking-ui
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_BASE_URL: http://localhost:8080
+      REACT_APP_GOOGLE_CLIENT_ID: ${REACT_APP_GOOGLE_CLIENT_ID:-your_google_client_id}
+      REACT_APP_FACEBOOK_APP_ID: ${REACT_APP_FACEBOOK_APP_ID:-your_facebook_app_id}
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - movie-network
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  movie-network:
+    driver: bridge
