@@ -26,7 +26,9 @@
 - [Environment Variables](#-environment-variables)
 - [API Endpoints](#-api-endpoints)
 - [Database Schema](#-database-schema)
+- [API Documentation](#-api-documentation-swaggeropenapi)
 - [Docker & Deployment](#-docker--deployment)
+- [Production Deployment](#-production-deployment)
 - [Architecture](#-architecture)
 - [Contributors](#-contributors)
 
@@ -479,7 +481,242 @@ Connect repository and auto-deploy on push.
 
 ---
 
-## 🏗️ Architecture
+## � Production Deployment
+
+This section provides instructions for deploying to production. **The application is currently deployment-ready but not yet deployed.**
+
+### Pre-Deployment Checklist
+
+- [ ] All environment variables configured (see `.env.production` example)
+- [ ] MongoDB Atlas cluster created and connection string ready
+- [ ] HTTPS/SSL certificates obtained
+- [ ] Domain name registered and DNS configured
+- [ ] Email credentials (Gmail app password) generated
+- [ ] Database backups configured
+- [ ] Monitoring and logging tools set up (optional)
+- [ ] API environment URL updated in `.env.production`
+
+### Deploy to Render
+
+**Render** is the recommended platform for this application:
+
+```bash
+# 1. Create account at https://render.com
+
+# 2. Connect GitHub repository
+#    - New > Web Service
+#    - Select repository
+#    - Choose branch: main
+
+# 3. Configure Build & Deploy Settings:
+#    - Name: movie-ticket-booking-platform
+#    - Environment: Docker
+#    - Docker build command: docker build -f server/Dockerfile .
+#    - Start command: npm start
+
+# 4. Add Environment Variables (Render Dashboard):
+#    - MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/movieticketdb
+#    - JWT_SECRET=<generate-strong-secret>
+#    - CLIENT_URL=https://yourdomain.render.com
+#    - NODE_ENV=production
+#    - SEED_ON_START=false
+
+# 5. Create PostgreSQL/MongoDB Instance (optional):
+#    - Render > Database > Create PostgreSQL/MongoDB
+#    - Get connection string from Render
+
+# 6. Deploy:
+#    - Click "Deploy" button
+#    - Deployment will start automatically
+```
+
+**Render Benefits:**
+- ✅ Native Docker support
+- ✅ Automatic HTTPS/SSL
+- ✅ GitHub auto-deployment on push
+- ✅ Free tier available for testing
+- ✅ MongoDB support
+
+### Deploy to Railway
+
+```bash
+# 1. Create account at https://railway.app
+
+# 2. Create new project
+#    - Add service > GitHub repo
+#    - Auto-detect will setup Node.js
+
+# 3. Add MongoDB service
+#    - Add > Provision PostgreSQL/MongoDB
+#    - Railway will create database
+
+# 4. Environment variables in Railway dashboard:
+#    - MONGODB_URI: Use Railway MongoDB URI
+#    - JWT_SECRET: Generate strong secret
+#    - CLIENT_URL: Your Railway domain
+#    - NODE_ENV: production
+
+# 5. Deploy:
+#    - Push to GitHub - Railway auto-deploys
+#    - Check deployment logs in dashboard
+```
+
+### Deploy to Heroku
+
+```bash
+# 1. Install Heroku CLI: https://devcenter.heroku.com/articles/heroku-cli
+
+# 2. Login to Heroku
+heroku login
+
+# 3. Create new app
+heroku create movie-ticket-booking-platform
+
+# 4. Add MongoDB addon
+heroku addons:create mongolab:sandbox -a movie-ticket-booking-platform
+
+# 5. Set environment variables
+heroku config:set JWT_SECRET=your_secret -a movie-ticket-booking-platform
+heroku config:set CLIENT_URL=https://movie-ticket-booking-platform.herokuapp.com
+
+# 6. Deploy
+git push heroku main
+
+# 7. View logs
+heroku logs --tail
+```
+
+### Deploy with Docker to AWS ECS
+
+```bash
+# 1. Create ECR Repository
+aws ecr create-repository --repository-name movie-ticket-booking-platform
+
+# 2. Build and push Docker image
+docker build -t movie-ticket-booking-platform .
+docker tag movie-ticket-booking-platform:latest <account-id>.dkr.ecr.<region>.amazonaws.com/movie-ticket-booking-platform:latest
+docker push <account-id>.dkr.ecr.<region>.amazonaws.com/movie-ticket-booking-platform:latest
+
+# 3. Create RDS MongoDB or DocumentDB cluster
+
+# 4. Create ECS task definition and service
+# 5. Configure load balancer
+# 6. Enable auto-scaling
+```
+
+### Deploy with Docker to DigitalOcean Kubernetes
+
+```bash
+# 1. Create DigitalOcean Kubernetes cluster
+doctl kubernetes cluster create movie-ticket-booking
+
+# 2. Install Docker image registry
+# 3. Create Kubernetes manifests for deployment, service, and ingress
+# 4. Deploy to cluster:
+kubectl apply -f k8s-deployment.yaml
+kubectl apply -f k8s-service.yaml
+kubectl apply -f k8s-ingress.yaml
+
+# 5. Monitor deployment
+kubectl get pods
+kubectl logs <pod-name>
+```
+
+### Production Environment Setup
+
+**Required for all deployments:**
+
+1. **MongoDB Atlas Setup**
+   ```bash
+   # Create cluster at https://www.mongodb.com/cloud/atlas
+   # - Tier: M0 (free) or M2+ for production
+   # - Get connection string: mongodb+srv://user:pass@cluster.mongodb.net/movieticketdb
+   # - Allow IP: 0.0.0.0/0 (or specific IPs)
+   ```
+
+2. **Gmail SMTP for Emails**
+   ```bash
+   # Generate app password (not regular password):
+   # https://myaccount.google.com/apppasswords
+   # Use generated 16-character password in GMAIL_PASSWORD
+   ```
+
+3. **JWT Secret Generation**
+   ```bash
+   # Generate secure random string:
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+
+4. **Domain & HTTPS**
+   ```bash
+   # Point your domain to deployment URL
+   # Enable auto-HTTPS (most platforms handle this automatically)
+   # Update CLIENT_URL to production domain
+   ```
+
+5. **Database Seeding**
+   ```bash
+   # First deployment: SEED_ON_START=true (seeds demo data)
+   # Subsequent deployments: SEED_ON_START=false (preserves data)
+   # Manually seed later if needed:
+   npm run seed
+   ```
+
+### Production Monitoring
+
+After deployment, set up monitoring:
+
+```bash
+# Health check endpoint (built-in)
+curl https://your-domain.com/health
+
+# Version check
+curl https://your-domain.com/version
+
+# Application logs
+# - Render: Dashboard > Logs
+# - Railway: Dashboard > Logs  
+# - Heroku: heroku logs --tail
+# - AWS: CloudWatch Logs
+```
+
+### Backup & Disaster Recovery
+
+```bash
+# MongoDB Atlas automatic backups (included in paid tiers)
+# Manual backup:
+mongodump --uri="mongodb+srv://user:pass@cluster.mongodb.net/movieticketdb"
+
+# Restore from backup:
+mongorestore --uri="mongodb+srv://user:pass@cluster.mongodb.net/movieticketdb" dump/
+
+# Database replication for high availability (production tier required)
+```
+
+### Scaling & Performance
+
+For increased traffic:
+
+- **Horizontal Scaling**: Deploy multiple instances behind load balancer
+- **Caching**: Add Redis for session/cache layer
+- **CDN**: Serve static assets from CDN (Cloudflare, AWS CloudFront)
+- **Database Optimization**: Add indexes, optimize queries
+- **Rate Limiting**: Implement request rate limiting
+- **Monitoring**: Set up alerting for metrics
+
+### Troubleshooting Deployment
+
+| Issue | Solution |
+|-------|----------|
+| Build fails | Check Docker image size, Node version compatibility |
+| Database connection error | Verify MongoDB connection string, IP whitelist |
+| CORS errors | Update CLIENT_URL in environment, check allowed origins |
+| Memory issues | Increase dyno/instance memory, optimize Node.js heap |
+| Timeout errors | Increase request timeout, optimize database queries |
+
+---
+
+## �🏗️ Architecture
 
 ### High-Level System Flow
 

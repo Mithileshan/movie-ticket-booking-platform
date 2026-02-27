@@ -40,8 +40,9 @@ try {
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use(function(req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Allow requests from CLIENT_URL (configurable for production)
+  const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:3000';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -49,10 +50,8 @@ app.use(function(req, res, next) {
   // Request headers you wish to allow
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization'
+    'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Access-Token, XKey, Authorization'
   );
-
-  //  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
   // Pass to next layer of middleware
   next();
